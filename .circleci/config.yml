@@ -4,17 +4,27 @@ workflows:
   version: 2
   release:
     jobs:
+      - announce
       - hold:
           type: approval
-      # - release:
-      #     requires:
-      #       - hold
-      #     filters:
-      #       branches:
-      #         ignore:
-      #           - master
+          requires:
+            - announce
+          filters:
+            branches:
+              ignore:
+                - master
+      - release:
+          requires:
+            - hold
+          filters:
+            branches:
+              ignore:
+                - master
 
 jobs:
+  announce:
+    steps:
+      - run: echo "Placeholder"
   release:
     docker:
       - image: circleci/golang:1.13
