@@ -1,3 +1,10 @@
+## [Version v1.1.0](https://github.com/haleyrc/changelog/releases/tag/v1.1.0) (2019-10-24 15:06)
+
+### Features
+
+*  Add link from CHANGELOG to a release ([d3996e](https://github.com/haleyrc/changelog/commit/d3996ea58ea6d07eb8fd6e576a1ad61047efdbac))
+
+
 ## Version v1.0.2 (2019-10-24 14:57)
 
 ### Bug Fixes
