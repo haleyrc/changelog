@@ -27,14 +27,14 @@ func main() {
 
 func (h History) Markdown() string {
 	var sb strings.Builder
-	if len(h.Features) > 1 {
+	if len(h.Features) > 0 {
 		sb.WriteString("## Features\n\n")
 		for _, feature := range h.Features {
 			printCommit(&sb, feature)
 		}
 	}
-	if len(h.Chores) > 1 {
-		if len(h.Features) > 1 {
+	if len(h.Chores) > 0 {
+		if len(h.Features) > 0 {
 			sb.WriteString("\n")
 		}
 		sb.WriteString("## Chores\n\n")
