@@ -1,3 +1,9 @@
+# Version v1.0.0 (2019-10-24T14:43:38-04:00)
+
+## Breaking Changes
+
+*  Add a breaking change ([099e2d](https://github.com/haleyrc/changelog/commit/099e2d219fee114b2d04ad5280f4fdde42fd6422)
+
 # Version v0.2.0 (2019-10-24T14:43:13-04:00)
 
 ## Features
