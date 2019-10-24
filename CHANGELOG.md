@@ -1,3 +1,16 @@
+## Version v1.0.1 (2019-10-24 14:54)
+
+### Bug Fixes
+
+*  Fix missing newline between sections ([d512cb](https://github.com/haleyrc/changelog/commit/d512cb2a55a06868c6bb85763b8a48239ba04082)
+*  Fix output formatting for CHANGELOG ([dd0aa2](https://github.com/haleyrc/changelog/commit/dd0aa2d330addfeb6e7c080395250057ab7e09b2)
+
+### Chores
+
+*  Revert bad CHANGELOG section ([73f27b](https://github.com/haleyrc/changelog/commit/73f27be58e410c8a19f9b92a480e5812d3ba3b9b)
+*  Fix changelog formatting ([9ca17c](https://github.com/haleyrc/changelog/commit/9ca17ceb80b58704638e2aa8becbec356e2811f4)
+
+
 ## Version v1.0.0 (2019-10-24 14:43)
 
 ### Breaking Changes
