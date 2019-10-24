@@ -1,3 +1,9 @@
+# Version v0.2.0 (2019-10-24T14:43:13-04:00)
+
+## Features
+
+*  Add some new feature ([95fa50](https://github.com/haleyrc/changelog/commit/95fa50b3cf4312aae89317da7fd20eca440640ca)
+
 # Version v0.1.1 (2019-10-24T14:42:40-04:00)
 
 ## Chores
