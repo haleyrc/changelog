@@ -41,7 +41,8 @@ func main() {
 
 	newTag := calculateNewTag(lastTag, hist)
 	newContents := fmt.Sprintf(
-		"## Version %s (%s)\n\n",
+		"## [Version %s](https://github.com/haleyrc/changelog/releases/tag/%s) (%s)\n\n",
+		newTag,
 		newTag,
 		time.Now().Format("2006-01-02 15:04"),
 	)
