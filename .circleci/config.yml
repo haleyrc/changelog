@@ -42,7 +42,7 @@ jobs:
             git config --global user.email "ryanhaley@frazer.biz"
             git config --global user.name "Ryan Haley"
       - run: git checkout master
-      - run: git pull --ff origin master
+      # - run: git pull --ff origin master
       - run: git reset --hard origin/master
       - run: git log --oneline | head -n10
       - run: echo ${CIRCLE_BRANCH}
