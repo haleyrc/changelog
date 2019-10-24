@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -8,9 +9,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/haleyrc/changelog/git"
 )
 
 func main() {
+	ctx := context.Background()
+
 	currentContents, err := ioutil.ReadFile("CHANGELOG.md")
 	if err != nil {
 		panic(err)
@@ -35,7 +40,6 @@ func main() {
 	}
 
 	newTag := calculateNewTag(lastTag, hist)
-	fmt.Println("New tag:", newTag)
 	newContents := fmt.Sprintf(
 		"# Version %s (%s)\n\n",
 		newTag,
@@ -43,6 +47,18 @@ func main() {
 	)
 	newContents += hist.Markdown() + "\n" + string(currentContents)
 	fmt.Println(ioutil.WriteFile("CHANGELOG.md", []byte(newContents), os.ModePerm))
+
+	if err := git.Add(ctx, "CHANGELOG.md"); err != nil {
+		panic(err)
+	}
+	commitMsg := fmt.Sprintf("Update CHANGELOG for %s", newTag)
+	if err := git.Commit(ctx, commitMsg); err != nil {
+		panic(err)
+	}
+	tagMsg := fmt.Sprintf("Tag for %s", newTag)
+	if err := git.Tag(ctx, newTag, tagMsg); err != nil {
+		panic(err)
+	}
 }
 
 func (h History) Markdown() string {
