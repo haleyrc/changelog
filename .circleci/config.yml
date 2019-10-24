@@ -12,12 +12,13 @@ jobs:
       - image: circleci/golang:1.13
         environment:
           CGO_ENABLED: 0
+          GOBIN: /tmp
 
     steps:
       - checkout
       - run: git checkout master
       - run: git merge ${CIRCLE_BRANCH}
       - run: go install .
-      - run: ./changelog
+      - run: ${GOBIN}/changelog
       - run: git tag
       - run: git log
