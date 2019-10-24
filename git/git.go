@@ -2,6 +2,7 @@ package git
 
 import (
 	"context"
+	"os"
 	"os/exec"
 )
 
@@ -17,5 +18,7 @@ func Add(ctx context.Context, file string) error {
 
 func Commit(ctx context.Context, msg string) error {
 	cmd := exec.CommandContext(ctx, "git", "commit", "-m", msg)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 	return cmd.Run()
 }
