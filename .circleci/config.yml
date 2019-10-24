@@ -16,11 +16,22 @@ jobs:
 
     steps:
       - checkout
-      - run: git config --global user.email "ryanhaley@frazer.biz"
-      - run: git config --global user.name "Ryan Haley"
-      - run: git checkout master
-      - run: git merge ${CIRCLE_BRANCH}
-      - run: go install .
-      - run: ${GOBIN}/changelog
-      - run: git tag
-      - run: git log
+      - run:
+          name: 
+          command: |
+            git config --global user.email "ryanhaley@frazer.biz"
+            git config --global user.name "Ryan Haley"
+      - run:
+          name: Merge into master
+          command: |
+            git checkout master
+            git merge ${CIRCLE_BRANCH}
+      - run:
+          name: Install changelog utility
+          command: go install .
+      - run:
+          name: Update version and CHANGELOG
+          command: ${GOBIN}/changelog
+      - run:
+          name: Push to master
+          command: git push origin master
