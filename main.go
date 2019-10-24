@@ -38,8 +38,17 @@ func (h History) Markdown() string {
 			sb.WriteString("\n")
 		}
 		sb.WriteString("## Chores\n\n")
-		for _, feature := range h.Chores {
-			printCommit(&sb, feature)
+		for _, chore := range h.Chores {
+			printCommit(&sb, chore)
+		}
+	}
+	if len(h.Fixes) > 0 {
+		if len(h.Chores) > 0 {
+			sb.WriteString("\n")
+		}
+		sb.WriteString("## Bug Fixes\n\n")
+		for _, fix := range h.Fixes {
+			printCommit(&sb, fix)
 		}
 	}
 	return sb.String()
@@ -51,6 +60,8 @@ func (h *History) Add(c Commit) {
 		h.Features = append(h.Features, c)
 	case Chore:
 		h.Chores = append(h.Chores, c)
+	case Fix:
+		h.Fixes = append(h.Fixes, c)
 	default:
 		h.Invalids = append(h.Invalids, c)
 	}
@@ -70,6 +81,7 @@ func printCommit(sb *strings.Builder, c Commit) {
 type History struct {
 	Features []Commit
 	Chores   []Commit
+	Fixes    []Commit
 	Invalids []Commit
 }
 
@@ -85,6 +97,7 @@ const (
 	Invalid CommitType = iota
 	Feature
 	Chore
+	Fix
 )
 
 func splitCommit(s string) (Commit, bool) {
@@ -130,6 +143,8 @@ func parseSubject(s string) (CommitType, string) {
 		typ = Feature
 	case strings.HasPrefix(prefix, "chore"):
 		typ = Chore
+	case strings.HasPrefix(prefix, "fix"):
+		typ = Fix
 	}
 
 	return typ, parts[1]
