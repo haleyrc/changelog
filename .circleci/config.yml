@@ -6,10 +6,6 @@ workflows:
     jobs:
       - hold:
           type: approval
-          filters:
-            branches:
-              ignore:
-                - master
       - release:
           requires:
             - hold
