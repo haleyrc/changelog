@@ -41,7 +41,7 @@ func main() {
 
 	newTag := calculateNewTag(lastTag, hist)
 	newContents := fmt.Sprintf(
-		"# Version %s (%s)\n\n",
+		"## Version %s (%s)\n\n",
 		newTag,
 		time.Now().Format(time.RFC3339),
 	)
@@ -64,7 +64,7 @@ func main() {
 func (h History) Markdown() string {
 	var sb strings.Builder
 	if len(h.Breaks) > 0 {
-		sb.WriteString("## Breaking Changes\n\n")
+		sb.WriteString("### Breaking Changes\n\n")
 		for _, breaker := range h.Breaks {
 			printCommit(&sb, breaker)
 		}
@@ -73,7 +73,7 @@ func (h History) Markdown() string {
 		if len(h.Breaks) > 0 {
 			sb.WriteString("\n")
 		}
-		sb.WriteString("## Bug Fixes\n\n")
+		sb.WriteString("### Bug Fixes\n\n")
 		for _, fix := range h.Fixes {
 			printCommit(&sb, fix)
 		}
@@ -82,7 +82,7 @@ func (h History) Markdown() string {
 		if len(h.Fixes) > 0 {
 			sb.WriteString("\n")
 		}
-		sb.WriteString("## Features\n\n")
+		sb.WriteString("### Features\n\n")
 		for _, feature := range h.Features {
 			printCommit(&sb, feature)
 		}
@@ -91,7 +91,7 @@ func (h History) Markdown() string {
 		if len(h.Features) > 0 {
 			sb.WriteString("\n")
 		}
-		sb.WriteString("## Chores\n\n")
+		sb.WriteString("### Chores\n\n")
 		for _, chore := range h.Chores {
 			printCommit(&sb, chore)
 		}
