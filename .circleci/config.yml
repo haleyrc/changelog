@@ -3,10 +3,13 @@ version: 2.1
 workflows:
   version: 2
   release:
+    branches:
+      ignore:
+        - master
     jobs:
-      - hold
+      - hold:
           type: approval
-      - release
+      - release:
           requires:
             - hold
 
