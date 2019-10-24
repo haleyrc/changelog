@@ -6,13 +6,13 @@ workflows:
     jobs:
       - hold:
           type: approval
-      - release:
-          requires:
-            - hold
-          filters:
-            branches:
-              ignore:
-                - master
+      # - release:
+      #     requires:
+      #       - hold
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - master
 
 jobs:
   release:
