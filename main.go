@@ -132,7 +132,7 @@ func calculateNewTag(ct string, h History) string {
 
 func printCommit(sb *strings.Builder, c Commit) {
 	s := fmt.Sprintf(
-		"* %s ([%s](%s%s)\n",
+		"* %s ([%s](%s%s))\n",
 		c.Subject,
 		c.Hash[:6],
 		"https://github.com/haleyrc/changelog/commit/",
