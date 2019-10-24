@@ -4,7 +4,11 @@ workflows:
   version: 2
   release:
     jobs:
-      - announce
+      - announce:
+          filters:
+            branches:
+              ignore:
+                - master
       - hold:
           type: approval
           requires:
