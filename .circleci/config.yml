@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - checkout
+      - run: git config --global user.email "ryanhaley@frazer.biz"
+      - run: git config --global user.name "Ryan Haley"
       - run: git checkout master
       - run: git merge ${CIRCLE_BRANCH}
       - run: go install .
