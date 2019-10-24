@@ -45,6 +45,7 @@ jobs:
           name: Merge into master
           command: |
             git checkout master
+            git pull
             git merge ${CIRCLE_BRANCH}
       - run:
           name: Install changelog utility
