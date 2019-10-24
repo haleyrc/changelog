@@ -4,7 +4,11 @@ workflows:
   version: 2
   release:
     jobs:
+      - hold
+          type: approval
       - release
+          requires:
+            - hold
 
 jobs:
   release:
@@ -34,4 +38,6 @@ jobs:
           command: ${GOBIN}/changelog
       - run:
           name: Push to master
-          command: git push origin master
+          command: |
+            git push origin master
+            git push --tags
