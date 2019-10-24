@@ -49,7 +49,7 @@ jobs:
       - run:
           name: Merge into master
           command: |
-            git merge --ff-only ${CIRCLE_BRANCH}
+            git merge --commit ${CIRCLE_BRANCH}
       - run:
           name: Install changelog utility
           command: go install .
