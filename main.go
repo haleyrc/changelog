@@ -43,7 +43,7 @@ func main() {
 	newContents := fmt.Sprintf(
 		"## Version %s (%s)\n\n",
 		newTag,
-		time.Now().Format(time.RFC3339),
+		time.Now().Format("2006-01-02 15:04"),
 	)
 	newContents += hist.Markdown() + "\n" + string(currentContents)
 	fmt.Println(ioutil.WriteFile("CHANGELOG.md", []byte(newContents), os.ModePerm))
@@ -68,33 +68,28 @@ func (h History) Markdown() string {
 		for _, breaker := range h.Breaks {
 			printCommit(&sb, breaker)
 		}
+		sb.WriteString("\n")
 	}
 	if len(h.Fixes) > 0 {
-		if len(h.Breaks) > 0 {
-			sb.WriteString("\n")
-		}
 		sb.WriteString("### Bug Fixes\n\n")
 		for _, fix := range h.Fixes {
 			printCommit(&sb, fix)
 		}
+		sb.WriteString("\n")
 	}
 	if len(h.Features) > 0 {
-		if len(h.Fixes) > 0 {
-			sb.WriteString("\n")
-		}
 		sb.WriteString("### Features\n\n")
 		for _, feature := range h.Features {
 			printCommit(&sb, feature)
 		}
+		sb.WriteString("\n")
 	}
 	if len(h.Chores) > 0 {
-		if len(h.Features) > 0 {
-			sb.WriteString("\n")
-		}
 		sb.WriteString("### Chores\n\n")
 		for _, chore := range h.Chores {
 			printCommit(&sb, chore)
 		}
+		sb.WriteString("\n")
 	}
 	return sb.String()
 }
