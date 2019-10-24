@@ -2,12 +2,23 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"os/exec"
+	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
-	cmd := exec.Command("git", "log", "--format=%H\n%B-----DELIMITER-----")
+	currentContents, err := ioutil.ReadFile("CHANGELOG.md")
+	if err != nil {
+		panic(err)
+	}
+
+	lastTag := getLastTag()
+	rng := fmt.Sprintf("%s..HEAD", lastTag)
+	cmd := exec.Command("git", "log", rng, "--format=%H\n%B-----DELIMITER-----")
 	contents, err := cmd.Output()
 	if err != nil {
 		panic(err)
@@ -22,12 +33,39 @@ func main() {
 		}
 		hist.Add(commit)
 	}
-	fmt.Println(hist.Markdown())
+
+	newTag := calculateNewTag(lastTag, hist)
+	fmt.Println("New tag:", newTag)
+	newContents := fmt.Sprintf(
+		"# Version %s (%s)\n\n",
+		newTag,
+		time.Now().Format(time.RFC3339),
+	)
+	newContents += hist.Markdown() + "\n" + string(currentContents)
+	fmt.Println(ioutil.WriteFile("CHANGELOG.md", []byte(newContents), os.ModePerm))
 }
 
 func (h History) Markdown() string {
 	var sb strings.Builder
+	if len(h.Breaks) > 0 {
+		sb.WriteString("## Breaking Changes\n\n")
+		for _, breaker := range h.Breaks {
+			printCommit(&sb, breaker)
+		}
+	}
+	if len(h.Fixes) > 0 {
+		if len(h.Breaks) > 0 {
+			sb.WriteString("\n")
+		}
+		sb.WriteString("## Bug Fixes\n\n")
+		for _, fix := range h.Fixes {
+			printCommit(&sb, fix)
+		}
+	}
 	if len(h.Features) > 0 {
+		if len(h.Fixes) > 0 {
+			sb.WriteString("\n")
+		}
 		sb.WriteString("## Features\n\n")
 		for _, feature := range h.Features {
 			printCommit(&sb, feature)
@@ -42,15 +80,6 @@ func (h History) Markdown() string {
 			printCommit(&sb, chore)
 		}
 	}
-	if len(h.Fixes) > 0 {
-		if len(h.Chores) > 0 {
-			sb.WriteString("\n")
-		}
-		sb.WriteString("## Bug Fixes\n\n")
-		for _, fix := range h.Fixes {
-			printCommit(&sb, fix)
-		}
-	}
 	return sb.String()
 }
 
@@ -62,9 +91,32 @@ func (h *History) Add(c Commit) {
 		h.Chores = append(h.Chores, c)
 	case Fix:
 		h.Fixes = append(h.Fixes, c)
+	case Break:
+		h.Breaks = append(h.Breaks, c)
 	default:
 		h.Invalids = append(h.Invalids, c)
 	}
+}
+
+func splitTag(t string) (int, int, int) {
+	parts := strings.Split(t[1:], ".")
+	major, _ := strconv.Atoi(parts[0])
+	minor, _ := strconv.Atoi(parts[1])
+	patch, _ := strconv.Atoi(parts[2])
+	return major, minor, patch
+}
+
+func calculateNewTag(ct string, h History) string {
+	major, minor, patch := splitTag(ct)
+	switch {
+	case len(h.Breaks) > 0:
+		major, minor, patch = major+1, 0, 0
+	case len(h.Features) > 0:
+		minor, patch = minor+1, 0
+	default:
+		patch = patch + 1
+	}
+	return fmt.Sprintf("v%d.%d.%d", major, minor, patch)
 }
 
 func printCommit(sb *strings.Builder, c Commit) {
@@ -83,6 +135,7 @@ type History struct {
 	Chores   []Commit
 	Fixes    []Commit
 	Invalids []Commit
+	Breaks   []Commit
 }
 
 type Commit struct {
@@ -98,6 +151,7 @@ const (
 	Feature
 	Chore
 	Fix
+	Break
 )
 
 func splitCommit(s string) (Commit, bool) {
@@ -145,7 +199,15 @@ func parseSubject(s string) (CommitType, string) {
 		typ = Chore
 	case strings.HasPrefix(prefix, "fix"):
 		typ = Fix
+	case strings.HasPrefix(prefix, "break"):
+		typ = Break
 	}
 
 	return typ, parts[1]
+}
+
+func getLastTag() string {
+	cmd := exec.Command("git", "describe", "--abbrev=0", "--tags", "--always")
+	out, _ := cmd.Output()
+	return strings.TrimSpace(string(out))
 }
