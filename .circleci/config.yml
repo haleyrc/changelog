@@ -23,6 +23,7 @@ workflows:
 
 jobs:
   announce:
+    docker: circleci/golang:1.13
     steps:
       - run: echo "Placeholder"
   release:
