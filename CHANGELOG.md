@@ -1,3 +1,9 @@
+# Version v0.1.1 (2019-10-24T14:42:40-04:00)
+
+## Chores
+
+*  Add some dummy text ([c315b8](https://github.com/haleyrc/changelog/commit/c315b8f71315e312851cdb6d9fd62e1eb8bf0020)
+
 # Version v0.1.0 (2019-10-24T14:42:06-04:00)
 
 ## Bug Fixes
