@@ -12,6 +12,13 @@
 *  Add an initial CI script ([a59e5e](https://github.com/haleyrc/changelog/commit/a59e5e20d68c0606b74fda8a4f05cce8a559490f))
 
 
+## [Version v1.1.1](https://github.com/haleyrc/changelog/releases/tag/v1.1.1) (2019-10-24 19:38)
+
+### Chores
+
+*  Add an initial CI script ([a59e5e](https://github.com/haleyrc/changelog/commit/a59e5e20d68c0606b74fda8a4f05cce8a559490f))
+
+
 ## [Version v1.1.1](https://github.com/haleyrc/changelog/releases/tag/v1.1.1) (2019-10-24 19:37)
 
 ### Chores
