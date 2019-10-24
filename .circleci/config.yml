@@ -1,0 +1,23 @@
+version: 2.1
+
+workflows:
+  version: 2
+  release:
+    jobs:
+      - release
+
+jobs:
+  release:
+    docker:
+      - image: circleci/golang:1.13
+        environment:
+          CGO_ENABLED: 0
+
+    steps:
+      - checkout
+      - run: git checkout master
+      - run: git merge ${CIRCLE_BRANCH}
+      - run: go install .
+      - run: ./changelog
+      - run: git tag
+      - run: git log
