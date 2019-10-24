@@ -41,12 +41,14 @@ jobs:
           command: |
             git config --global user.email "ryanhaley@frazer.biz"
             git config --global user.name "Ryan Haley"
+      - run: git checkout master
+      - run: git pull origin master
+      - run: git reset --hard origin/master
+      - run: git log --oneline | head -n10
+      - run: echo ${CIRCLE_BRANCH}
       - run:
           name: Merge into master
           command: |
-            git checkout master
-            git pull origin master
-            git reset --hard origin/master
             git merge ${CIRCLE_BRANCH}
       - run:
           name: Install changelog utility
