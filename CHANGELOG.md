@@ -1,3 +1,14 @@
+## Version v1.0.2 (2019-10-24 14:57)
+
+### Bug Fixes
+
+*  Add missing paren in commit output ([84d648](https://github.com/haleyrc/changelog/commit/84d64890875314fca92ac4f56dd9015f64a773f6))
+
+### Chores
+
+*  Fix missing parentheses in CHANGELOG ([c2dec8](https://github.com/haleyrc/changelog/commit/c2dec83272a167f11058d0d87f342e6a247547a7))
+
+
 ## Version v1.0.1 (2019-10-24 14:54)
 
 ### Bug Fixes
