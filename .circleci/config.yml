@@ -4,9 +4,29 @@ workflows:
   version: 2
   release:
     jobs:
-      - release
+      - announce
+      - hold:
+          type: approval
+          requires:
+            - announce
+          filters:
+            branches:
+              ignore:
+                - master
+      - release:
+          requires:
+            - hold
+          filters:
+            branches:
+              ignore:
+                - master
 
 jobs:
+  announce:
+    docker:
+      - image: circleci/golang:1.13
+    steps:
+      - run: echo "Placeholder"
   release:
     docker:
       - image: circleci/golang:1.13
@@ -21,11 +41,15 @@ jobs:
           command: |
             git config --global user.email "ryanhaley@frazer.biz"
             git config --global user.name "Ryan Haley"
+      - run: git checkout master
+      # - run: git pull --ff origin master
+      - run: git reset --hard origin/master
+      # - run: git log --oneline | head -n10
+      - run: echo ${CIRCLE_BRANCH}
       - run:
           name: Merge into master
           command: |
-            git checkout master
-            git merge ${CIRCLE_BRANCH}
+            git merge --squash --commit ${CIRCLE_BRANCH}
       - run:
           name: Install changelog utility
           command: go install .
@@ -34,4 +58,6 @@ jobs:
           command: ${GOBIN}/changelog
       - run:
           name: Push to master
-          command: git push origin master
+          command: |
+            git push origin master
+            git push --tags
