@@ -1,3 +1,14 @@
+## [Version v1.1.1](https://github.com/haleyrc/changelog/releases/tag/v1.1.1) (2019-10-28 15:14)
+
+### Bug Fixes
+
+*  Fix panics and invalid repos ([c5ba87](https://github.com/haleyrc/changelog/c5ba87bc6b2c5d2e278b172c7341680f1f4f6d4d))
+
+### Chores
+
+*  Add an initial CI script ([a59e5e](https://github.com/haleyrc/changelog/a59e5e20d68c0606b74fda8a4f05cce8a559490f))
+
+
 ## [Version v1.1.1](https://github.com/haleyrc/changelog/releases/tag/v1.1.1) (2019-10-28 15:13)
 
 ### Bug Fixes
