@@ -8,6 +8,8 @@ import (
 
 func Tag(ctx context.Context, tag, message string) error {
 	cmd := exec.CommandContext(ctx, "git", "tag", "-a", tag, "-m", message)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 	return cmd.Run()
 }
 
