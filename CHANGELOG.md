@@ -1,3 +1,10 @@
+## [Version v1.2.0](https://github.com/haleyrc/changelog/releases/tag/v1.2.0) (2020-03-20 09:28)
+
+### Features
+
+*  Add support for patches ([bbb1c5](https://github.com/haleyrc/changelog/bbb1c553a6d371bea3b3b8ddde7fd93cff711c4f))
+
+
 ## [Version v1.1.1](https://github.com/haleyrc/changelog/releases/tag/v1.1.1) (2019-10-28 15:17)
 
 ### Bug Fixes
