@@ -136,6 +136,13 @@ func (h History) Markdown(repo string) string {
 		}
 		sb.WriteString("\n")
 	}
+	if len(h.Patches) > 0 {
+		sb.WriteString("### Patches\n\n")
+		for _, patch := range h.Patches {
+			printCommit(&sb, repo, patch)
+		}
+		sb.WriteString("\n")
+	}
 	if len(h.Chores) > 0 {
 		sb.WriteString("### Chores\n\n")
 		for _, chore := range h.Chores {
@@ -160,6 +167,8 @@ func (h *History) Add(c Commit) {
 		h.Docs = append(h.Docs, c)
 	case Build:
 		h.Build = append(h.Build, c)
+	case Patch:
+		h.Patches = append(h.Patches, c)
 	default:
 		h.Invalids = append(h.Invalids, c)
 	}
@@ -211,13 +220,15 @@ type History struct {
 	Breaks   []Commit
 	Build    []Commit
 	Docs     []Commit
+	Patches  []Commit
 }
 
 func (h History) Empty() bool {
 	return (h.Features == nil || len(h.Features) == 0) &&
 		(h.Chores == nil || len(h.Chores) == 0) &&
 		(h.Fixes == nil || len(h.Fixes) == 0) &&
-		(h.Breaks == nil || len(h.Breaks) == 0)
+		(h.Breaks == nil || len(h.Breaks) == 0) &&
+		(h.Patches == nil || len(h.Patches) == 0)
 }
 
 type Commit struct {
@@ -236,6 +247,7 @@ const (
 	Break
 	Docs
 	Build
+	Patch
 )
 
 func splitCommit(s string) (Commit, bool) {
@@ -289,6 +301,8 @@ func parseSubject(s string) (CommitType, string) {
 		typ = Docs
 	case strings.HasPrefix(prefix, "build"):
 		typ = Build
+	case strings.HasPrefix(prefix, "patch"):
+		typ = Patch
 	}
 
 	return typ, parts[1]

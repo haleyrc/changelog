@@ -33,6 +33,7 @@ Currently supported commit types:
 * Bug Fix (`fix:`)
 * Documentation (`docs:`)
 * Build (`build:`)
+* Patch (`patch:`)
 
 Documentation and build commits are parsed, but are *not* currently included in
 the change log as they would not prompt a new version.
